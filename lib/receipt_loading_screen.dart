@@ -64,6 +64,7 @@ class _ReceiptLoadingScreenState extends State<ReceiptLoadingScreen> {
     final cameras = await availableCameras();
     controller = CameraController(
       cameras.first,
+      // ここを変えるとcontrollerのpreviewSizeも変わる
       ResolutionPreset.veryHigh,
       enableAudio: false,
     );

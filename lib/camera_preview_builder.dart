@@ -17,18 +17,10 @@ class CameraPreviewBuilder extends StatelessWidget {
       future: _initializeControllerFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          final size = MediaQuery.of(context).size;
           return Expanded(
-            child: FittedBox(
-              fit: BoxFit.cover,
-              child: SizedBox(
-                width: size.width,
-                height: size.width * controller.value.aspectRatio,
-                child: AspectRatio(
-                  aspectRatio: 1 / controller.value.aspectRatio,
-                  child: CameraPreview(controller),
-                ),
-              ),
+            child: AspectRatio(
+              aspectRatio: (controller.value.aspectRatio),
+              child: CameraPreview(controller),
             ),
           );
         } else {
