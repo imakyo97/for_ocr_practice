@@ -1,9 +1,9 @@
 import 'package:camera/camera.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:for_ocr_practice/take_picture_button.dart';
+import 'package:for_ocr_practice/ui/component/take_picture_button.dart';
 
-import 'camera_preview_builder.dart';
+import 'component/camera_preview_builder.dart';
 
 class ReceiptLoadingScreen extends StatefulWidget {
   const ReceiptLoadingScreen({super.key});
