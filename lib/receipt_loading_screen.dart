@@ -1,4 +1,5 @@
 import 'package:camera/camera.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:for_ocr_practice/take_picture_button.dart';
 
@@ -21,6 +22,7 @@ class _ReceiptLoadingScreenState extends State<ReceiptLoadingScreen> {
   @override
   void initState() {
     super.initState();
+    _signIn();
     _initalizeCamera();
   }
 
@@ -58,6 +60,10 @@ class _ReceiptLoadingScreenState extends State<ReceiptLoadingScreen> {
         }),
       ),
     );
+  }
+
+  void _signIn() async {
+    await FirebaseAuth.instance.signInAnonymously();
   }
 
   Future<void> _initalizeCamera() async {
