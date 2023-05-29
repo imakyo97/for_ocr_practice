@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:for_ocr_practice/repository/annotate_image_repository.dart';
+import 'package:for_ocr_practice/camera/model/annotate_image_repository.dart';
 
 final annotateImageDataProvider = StateProvider<Uint8List>((ref) {
   return Uint8List(0);

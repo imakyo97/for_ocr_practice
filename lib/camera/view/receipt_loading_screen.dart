@@ -2,7 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:for_ocr_practice/ui/component/take_picture_button.dart';
+import 'package:for_ocr_practice/camera/view/component/take_picture_button.dart';
 
 import 'component/camera_preview_builder.dart';
 
