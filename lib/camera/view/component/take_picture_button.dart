@@ -44,14 +44,14 @@ class TakePictureButton extends ConsumerWidget {
   }
 
   Future<void> checkAuth(WidgetRef ref) async {
-    final authNotifier = ref.watch(authProvider.notifier);
+    final authNotifier = ref.read(authProvider.notifier);
     if (!authNotifier.isLogin()) {
       await authNotifier.signIn();
     }
   }
 
   Future<String?> executeOCR(WidgetRef ref) async {
-    final imageDataNotifier = ref.watch(annotateImageDataProvider.notifier);
+    final imageDataNotifier = ref.read(annotateImageDataProvider.notifier);
     final XFile image = await controller.takePicture();
     final Uint8List bytes = await image.readAsBytes();
     imageDataNotifier.state = bytes;
