@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_ocr_practice/firebase_options.dart';
-import 'package:for_ocr_practice/ui/receipt_loading_screen.dart';
+import 'package:for_ocr_practice/camera/view/receipt_loading_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
