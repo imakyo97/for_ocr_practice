@@ -17,11 +17,9 @@ class CameraPreviewBuilder extends StatelessWidget {
       future: _initializeControllerFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          return Expanded(
-            child: AspectRatio(
-              aspectRatio: (controller.value.aspectRatio),
-              child: CameraPreview(controller),
-            ),
+          return AspectRatio(
+            aspectRatio: (controller.value.aspectRatio),
+            child: CameraPreview(controller),
           );
         } else {
           return const CircularProgressIndicator();
