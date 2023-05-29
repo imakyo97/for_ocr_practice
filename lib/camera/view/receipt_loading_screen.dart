@@ -12,9 +12,9 @@ class ReceiptLoadingScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cameraController = ref.watch(cameraControllerFutureProvider);
-    return SafeArea(
-      child: Scaffold(
-        body: cameraController.when(
+    return Scaffold(
+      body: SafeArea(
+        child: cameraController.when(
           data: (data) {
             return Column(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -37,10 +37,15 @@ class ReceiptLoadingScreen extends ConsumerWidget {
             );
           },
           error: (error, stackTrace) {
-            debugPrint(error.toString());
-            return null;
+            return Center(
+              child: Text(
+                error.toString(),
+              ),
+            );
           },
-          loading: () => const CircularProgressIndicator(),
+          loading: () => const Center(
+            child: CircularProgressIndicator(),
+          ),
         ),
       ),
     );

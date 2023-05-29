@@ -1,10 +1,10 @@
-import 'dart:typed_data';
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_ocr_practice/camera/model/annotate_image_provider.dart';
 import 'package:for_ocr_practice/camera/model/auth_provider.dart';
+import 'package:for_ocr_practice/read_result/model/full_text_provider.dart';
+import 'package:for_ocr_practice/read_result/view/read_result_screen.dart';
 
 class TakePictureButton extends ConsumerWidget {
   const TakePictureButton({super.key, required this.controller});
@@ -30,10 +30,17 @@ class TakePictureButton extends ConsumerWidget {
         onPressed: () async {
           try {
             // OCR実行には認証が必須なため、認証を確認
-            await checkAuth(ref);
+            await ref.read(authProvider.notifier).checkAuth();
             // 写真を撮影し、OCRを実行
-            final fullText = await executeOCR(ref);
-            debugPrint('💩: ${fullText}');
+            await executeOCR(ref);
+            if (context.mounted) {
+              await Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const ReadResultScreen(),
+                ),
+              );
+              await controller.resumePreview();
+            }
           } catch (e) {
             debugPrint(e.toString());
           }
@@ -43,18 +50,11 @@ class TakePictureButton extends ConsumerWidget {
     );
   }
 
-  Future<void> checkAuth(WidgetRef ref) async {
-    final authNotifier = ref.read(authProvider.notifier);
-    if (!authNotifier.isLogin()) {
-      await authNotifier.signIn();
-    }
-  }
-
-  Future<String?> executeOCR(WidgetRef ref) async {
-    final imageDataNotifier = ref.read(annotateImageDataProvider.notifier);
-    final XFile image = await controller.takePicture();
-    final Uint8List bytes = await image.readAsBytes();
-    imageDataNotifier.state = bytes;
-    return await ref.read(annotateImageFutureProvider.future);
+  Future<void> executeOCR(WidgetRef ref) async {
+    final imageFileNotifier = ref.read(imageXFileProvider.notifier);
+    imageFileNotifier.state = await controller.takePicture();
+    await controller.pausePreview();
+    final fullTextNotifier = ref.read(fullTextProvider.notifier);
+    fullTextNotifier.state = await ref.read(annotateImageFutureProvider.future);
   }
 }
