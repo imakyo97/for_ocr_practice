@@ -1,16 +1,8 @@
 # for_ocr_practice
+Cloud FunctionsとCloud Vision APIを使って文字認識をするアプリです。
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 使っている技術一覧
+- Firebase Authentication (匿名認証のみ）
+- Firebase Functions
+- Cloud Vision API 
+- camera (flutter公式のカメラパッケージ）
