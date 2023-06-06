@@ -50,7 +50,7 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCixCd3Ta8dd4MquVN0VK5v6v_Ah00OoLA',
+    apiKey: 'AIzaSyBULd9KJr440TcqgNrz0OOwMB62YgNcEXI',
     appId: '1:676272547605:android:b27b6523488480fdc62b1c',
     messagingSenderId: '676272547605',
     projectId: 'for-ocr-practice',
