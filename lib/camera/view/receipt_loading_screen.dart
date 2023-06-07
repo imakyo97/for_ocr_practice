@@ -11,41 +11,57 @@ class ReceiptLoadingScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final cameraController = ref.watch(cameraControllerFutureProvider);
+    final cameraController =
+        ref.watch(cameraControllerProvider.notifier).initialize();
     return Scaffold(
       body: SafeArea(
-        child: cameraController.when(
-          data: (data) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Expanded(
-                  child: AspectRatio(
-                    aspectRatio: (data.value.aspectRatio),
-                    child: CameraPreview(data),
+        child: FutureBuilder(
+          future: cameraController,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState != ConnectionState.done) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+            if (snapshot.hasError) {
+              return Center(
+                child: Text(snapshot.error.toString()),
+              );
+            }
+
+            if (snapshot.hasData) {
+              if (snapshot.data == null) {
+                return const Center(
+                  child: Text('カメラ起動に失敗しました'),
+                );
+              }
+              final data = snapshot.data!;
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: AspectRatio(
+                      aspectRatio: (data.value.aspectRatio),
+                      child: CameraPreview(data),
+                    ),
                   ),
-                ),
-                Container(
-                  width: double.infinity,
-                  height: bottomCameraContainerHeight,
-                  color: Colors.black,
-                  child: Center(
-                    child: TakePictureButton(controller: data),
-                  ),
-                )
-              ],
+                  Container(
+                    width: double.infinity,
+                    height: bottomCameraContainerHeight,
+                    color: Colors.black,
+                    child: Center(
+                      child: TakePictureButton(controller: data),
+                    ),
+                  )
+                ],
+              );
+            }
+
+            return const Center(
+              child: Text('カメラ起動に失敗しました'),
             );
           },
-          error: (error, stackTrace) {
-            return Center(
-              child: Text(
-                error.toString(),
-              ),
-            );
-          },
-          loading: () => const Center(
-            child: CircularProgressIndicator(),
-          ),
         ),
       ),
     );

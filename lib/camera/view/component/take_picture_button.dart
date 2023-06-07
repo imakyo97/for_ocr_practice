@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_ocr_practice/camera/model/annotate_image_provider.dart';
 import 'package:for_ocr_practice/camera/model/auth_provider.dart';
 import 'package:for_ocr_practice/read_result/model/full_text_provider.dart';
-import 'package:for_ocr_practice/read_result/view/read_result_screen.dart';
+import 'package:for_ocr_practice/router/pages_management.dart';
 
 class TakePictureButton extends ConsumerWidget {
   const TakePictureButton({super.key, required this.controller});
@@ -33,14 +33,7 @@ class TakePictureButton extends ConsumerWidget {
             await ref.read(authProvider.notifier).checkAuth();
             // 写真を撮影し、OCRを実行
             await executeOCR(ref);
-            if (context.mounted) {
-              await Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const ReadResultScreen(),
-                ),
-              );
-              await controller.resumePreview();
-            }
+            ref.read(pagesManagementProvider.notifier).openReadResult();
           } catch (e) {
             debugPrint(e.toString());
           }
