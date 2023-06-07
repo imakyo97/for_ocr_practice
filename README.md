@@ -6,3 +6,4 @@ Cloud FunctionsとCloud Vision APIを使って文字認識をするアプリで�
 - Firebase Functions
 - Cloud Vision API 
 - camera (flutter公式のカメラパッケージ）
+- Navigator2.0
