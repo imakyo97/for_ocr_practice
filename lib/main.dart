@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_ocr_practice/firebase_options.dart';
+import 'package:for_ocr_practice/overlay_indicator/overlay_indicator.dart';
 import 'package:for_ocr_practice/router/ocr_router_delegate.dart';
 
 void main() async {
@@ -21,11 +22,18 @@ class OcrApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final shouldDisplayOverlayIndicator =
+        ref.watch(shouldDisplayOverlayIndicatorProvider);
     return MaterialApp(
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Router(routerDelegate: OcrRouterDelegate(ref)),
+      home: Stack(
+        children: [
+          Router(routerDelegate: OcrRouterDelegate(ref)),
+          if (shouldDisplayOverlayIndicator) const OverlayIndicator(),
+        ],
+      ),
     );
   }
 }

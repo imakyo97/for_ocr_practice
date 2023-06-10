@@ -29,11 +29,13 @@ class TakePictureButton extends ConsumerWidget {
         ),
         onPressed: () async {
           try {
+            final pagesManagementNotifier =
+                ref.read(pagesManagementProvider.notifier);
             // OCR実行には認証が必須なため、認証を確認
             await ref.read(authProvider.notifier).checkAuth();
             // 写真を撮影し、OCRを実行
             await executeOCR(ref);
-            ref.read(pagesManagementProvider.notifier).openReadResult();
+            pagesManagementNotifier.openReadResult();
           } catch (e) {
             debugPrint(e.toString());
           }
@@ -45,9 +47,9 @@ class TakePictureButton extends ConsumerWidget {
 
   Future<void> executeOCR(WidgetRef ref) async {
     final imageFileNotifier = ref.read(imageXFileProvider.notifier);
+    final fullTextNotifier = ref.read(fullTextProvider.notifier);
     imageFileNotifier.state = await controller.takePicture();
     await controller.pausePreview();
-    final fullTextNotifier = ref.read(fullTextProvider.notifier);
     fullTextNotifier.state = await ref.read(annotateImageFutureProvider.future);
   }
 }

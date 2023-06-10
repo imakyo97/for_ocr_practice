@@ -7,7 +7,7 @@ import 'package:for_ocr_practice/camera/view/component/take_picture_button.dart'
 class ReceiptLoadingScreen extends ConsumerWidget {
   const ReceiptLoadingScreen({super.key});
 
-  final double bottomCameraContainerHeight = 100;
+  final double _bottomCameraContainerHeight = 100;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -18,12 +18,6 @@ class ReceiptLoadingScreen extends ConsumerWidget {
         child: FutureBuilder(
           future: cameraController,
           builder: (context, snapshot) {
-            if (snapshot.connectionState != ConnectionState.done) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-
             if (snapshot.hasError) {
               return Center(
                 child: Text(snapshot.error.toString()),
@@ -48,7 +42,7 @@ class ReceiptLoadingScreen extends ConsumerWidget {
                   ),
                   Container(
                     width: double.infinity,
-                    height: bottomCameraContainerHeight,
+                    height: _bottomCameraContainerHeight,
                     color: Colors.black,
                     child: Center(
                       child: TakePictureButton(controller: data),
