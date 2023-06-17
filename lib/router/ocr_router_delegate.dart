@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_ocr_practice/camera/model/camera_provider.dart';
 import 'package:for_ocr_practice/overlay_indicator/overlay_indicator.dart';
@@ -8,8 +8,8 @@ import 'package:for_ocr_practice/router/pages_management.dart';
 
 class OcrRouterDelegate extends RouterDelegate
     with ChangeNotifier, PopNavigatorRouterDelegateMixin {
-  final _navigatorKey = GlobalKey<NavigatorState>();
   final WidgetRef _ref;
+  static final _navigatorKey = GlobalKey<NavigatorState>();
 
   OcrRouterDelegate(this._ref) {
     _ref.listen(pagesManagementProvider, (previous, next) => notifyListeners());
@@ -36,7 +36,7 @@ class OcrRouterDelegate extends RouterDelegate
             if (!route.didPop(result)) return false;
             if (route.settings.name == ReadResultPage.pageName) {
               pagesManagementNotifier.closeReadResult();
-              _ref.read(cameraControllerProvider)?.pausePreview();
+              _ref.read(cameraControllerProvider)?.resumePreview();
             }
             return true;
           },
