@@ -11,11 +11,7 @@ class OcrRouterDelegate extends RouterDelegate
   final WidgetRef _ref;
   static final _navigatorKey = GlobalKey<NavigatorState>();
 
-  OcrRouterDelegate(this._ref) {
-    _ref.listen(pagesManagementProvider, (previous, next) => notifyListeners());
-    _ref.listen(shouldDisplayOverlayIndicatorProvider,
-        (previous, next) => notifyListeners());
-  }
+  OcrRouterDelegate(this._ref);
 
   @override
   Widget build(BuildContext context) {
