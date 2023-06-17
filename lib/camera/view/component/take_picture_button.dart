@@ -9,7 +9,7 @@ import 'package:for_ocr_practice/router/pages_management.dart';
 class TakePictureButton extends ConsumerWidget {
   const TakePictureButton({super.key, required this.controller});
 
-  final CameraController controller;
+  final CameraController? controller;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -27,19 +27,18 @@ class TakePictureButton extends ConsumerWidget {
             width: 2.5,
           ),
         ),
-        onPressed: () async {
-          try {
-            final pagesManagementNotifier =
-                ref.read(pagesManagementProvider.notifier);
-            // OCR実行には認証が必須なため、認証を確認
-            await ref.read(authProvider.notifier).checkAuth();
-            // 写真を撮影し、OCRを実行
-            await executeOCR(ref);
-            pagesManagementNotifier.openReadResult();
-          } catch (e) {
-            debugPrint(e.toString());
-          }
-        },
+        onPressed: controller == null
+            ? null
+            : () async {
+                try {
+                  // OCR実行には認証が必須なため、認証を確認
+                  await ref.read(authProvider.notifier).checkAuth();
+                  // 写真を撮影し、OCRを実行
+                  await executeOCR(ref);
+                } catch (e) {
+                  debugPrint(e.toString());
+                }
+              },
         child: const Icon(Icons.camera_alt_outlined),
       ),
     );
@@ -48,8 +47,11 @@ class TakePictureButton extends ConsumerWidget {
   Future<void> executeOCR(WidgetRef ref) async {
     final imageFileNotifier = ref.read(imageXFileProvider.notifier);
     final fullTextNotifier = ref.read(fullTextProvider.notifier);
-    imageFileNotifier.state = await controller.takePicture();
-    await controller.pausePreview();
-    fullTextNotifier.state = await ref.read(annotateImageFutureProvider.future);
+    final pagesManagementNotifier = ref.read(pagesManagementProvider.notifier);
+    imageFileNotifier.state = await controller!.takePicture();
+    await controller!.pausePreview();
+    fullTextNotifier.state =
+        await ref.refresh(annotateImageFutureProvider.future);
+    pagesManagementNotifier.openReadResult();
   }
 }
