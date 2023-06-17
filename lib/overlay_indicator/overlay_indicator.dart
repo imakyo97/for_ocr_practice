@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_ocr_practice/camera/model/annotate_image_provider.dart';
@@ -7,11 +9,13 @@ class OverlayIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ColoredBox(
-      color: Colors.black26,
+    return ColoredBox(
+      color: Colors.black38,
       child: SizedBox.expand(
         child: Center(
-          child: CircularProgressIndicator.adaptive(),
+          child: CircularProgressIndicator.adaptive(
+            backgroundColor: Platform.isIOS ? Colors.white : null,
+          ),
         ),
       ),
     );
